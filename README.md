@@ -1,0 +1,2 @@
+# burn-minist
+burn guide
