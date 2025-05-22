@@ -1,2 +1,3 @@
 # burn-minist
-burn guide
+
+burn入门教程
