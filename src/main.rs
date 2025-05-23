@@ -11,6 +11,9 @@ use burn::backend::{Autodiff, Wgpu};
 use burn::data::dataset::Dataset;
 use burn::optim::AdamConfig;
 
+/// Main function to run the training and inference.
+///
+/// This function initializes the WGPU device, trains the model, and then performs inference on a sample image.
 fn main() {
     type MyBackend = Wgpu<f32, i32>;
     type MyAotudiffBackend = Autodiff<MyBackend>;
