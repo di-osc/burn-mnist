@@ -1,3 +1,3 @@
-# burn-minist
+# burn-mnist
 
-burn入门教程
+burn-mnist is a simple MNIST classifier implemented in Rust Burn deep learning library.
