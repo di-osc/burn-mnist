@@ -1,9 +1,13 @@
 [package]
 name = "burn-mnist"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "train a simple neural network on mnist dataset using burn."
 license = "MIT"
+
+[[bin]]
+name = "burn-mnist"
+path = "src/main.rs"
 
 [dependencies]
 burn = { version = "0.17.0", features = ["train", "vision", "wgpu"] }
