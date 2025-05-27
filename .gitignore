@@ -20,5 +20,6 @@ target/
 
 /target
 /checkpoints
+/mnist_artifacts
 
 *.ipynb
