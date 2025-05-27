@@ -4,7 +4,7 @@ use burn::data::dataloader::DataLoaderBuilder;
 use burn::data::dataset::vision::MnistDataset;
 use burn::record::CompactRecorder;
 use burn::train::LearnerBuilder;
-use burn::train::metric::{AccuracyMetric, LossMetric};
+use burn::train::metric::{AccuracyMetric, CpuMemory, CpuTemperature, CpuUse, LossMetric};
 use burn::{optim::AdamConfig, prelude::*, tensor::backend::AutodiffBackend};
 
 #[derive(Config)]
@@ -54,6 +54,12 @@ pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, dev
     let learner = LearnerBuilder::new(artifact_dir)
         .metric_train_numeric(AccuracyMetric::new())
         .metric_valid_numeric(AccuracyMetric::new())
+        .metric_train_numeric(CpuUse::new())
+        .metric_valid_numeric(CpuUse::new())
+        .metric_train_numeric(CpuMemory::new())
+        .metric_valid_numeric(CpuMemory::new())
+        .metric_train_numeric(CpuTemperature::new())
+        .metric_valid_numeric(CpuTemperature::new())
         .metric_train_numeric(LossMetric::new())
         .metric_valid_numeric(LossMetric::new())
         .with_file_checkpointer(CompactRecorder::new())
