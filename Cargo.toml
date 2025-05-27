@@ -10,4 +10,5 @@ name = "burn-mnist"
 path = "src/main.rs"
 
 [dependencies]
-burn = { version = "0.17.0", features = ["train", "vision", "wgpu"] }
+burn = { version = "0.17.0", features = ["train", "vision", "dataset", "wgpu"] }
+rand = "0.9.1"
