@@ -4,11 +4,13 @@ mod inference;
 mod model;
 mod training;
 
+use std::num::NonZeroUsize;
+
 use crate::model::ModelConfig;
 use crate::training::TrainingConfig;
 
 use burn::backend::{Autodiff, Wgpu};
-use burn::data::dataset::Dataset;
+use burn::data::dataset::transform::Window;
 use burn::optim::AdamConfig;
 
 /// Main function to run the training and inference.
@@ -20,7 +22,7 @@ fn main() {
 
     let device = burn::backend::wgpu::WgpuDevice::default();
 
-    let artifact_dir = "checkpoints";
+    let artifact_dir = "mnist_artifacts";
     let start = std::time::Instant::now();
     training::train::<MyAotudiffBackend>(
         artifact_dir,
@@ -29,11 +31,9 @@ fn main() {
     );
     let duration = start.elapsed();
     println!("Training time: {:?}", duration);
-    crate::inference::infer::<MyBackend>(
-        artifact_dir,
-        device,
-        burn::data::dataset::vision::MnistDataset::test()
-            .get(40)
-            .unwrap(),
-    );
+    let random_start = rand::random::<u8>().into();
+    let items = burn::data::dataset::vision::MnistDataset::test()
+        .window(random_start, NonZeroUsize::new(10).unwrap())
+        .unwrap();
+    crate::inference::infer::<MyBackend>(artifact_dir, device, items);
 }
