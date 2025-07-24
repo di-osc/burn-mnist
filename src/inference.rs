@@ -18,8 +18,20 @@ pub fn infer<B: Backend>(artifact_dir: &str, device: B::Device, items: Vec<Mnist
     let batcher = MnistBatcher::default();
     let batch = batcher.batch(items, &device);
     let output = model.forward(batch.images);
-    let predicted = output.argmax(1).flatten::<1>(0, 1).to_data();
+    let predicted: Vec<i32> = output
+        .argmax(1)
+        .flatten::<1>(0, 1)
+        .to_data()
+        .to_vec()
+        .unwrap();
+    // to u8 for printing
+    let predicted: Vec<u8> = predicted.iter().map(|&x| x as u8).collect();
 
-    println!("Predicted: {}", predicted);
-    println!("Labels: {:?}", labels);
+    let correct = predicted
+        .iter()
+        .zip(labels.iter())
+        .filter(|(pred, label)| *pred == *label)
+        .count();
+    let accuracy = correct as f64 / labels.len() as f64;
+    println!("Accuracy: {:.2}%", accuracy * 100.0);
 }
